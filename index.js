@@ -16,16 +16,6 @@ ON e.id_author = a.id_author;
 
 instalar nodemon:
 npm install --save-dev nodemon 
-
-UPDATE entries
-SET 
-    content = $2,
-    date = $3, 
-    category = $4
-WHERE title = $1;`
-
-DELETE FROM entries
-WHERE title = $1;
 */
 
 // codigo de Servidor
@@ -33,16 +23,19 @@ const express = require('express') //importamos paquete express
 const app = express() // inicializar servidor con express
 const port = 3000 // puerto a usar por el server
 
+// express
 app.use(express.json()); // Middleware para parsear el body de las peticiones
 
 // GET http://localhost:3000
 app.get('/', (req, res) => {
-    res.send('Hello Entries Authors!');
+    res.send('Hello Entries y Authors!');
 });
 
-const entriesRoutes = require("./routes/entries.routes"); // importamos los archivos de rutas
+// importamos los archivos de rutas para entries
+const entriesRoutes = require("./routes/entries.routes"); 
 app.use('/api/entries', entriesRoutes);
 
+// importamos los archivos de rutas para authors
 const authorsRoutes = require("./routes/authors.routes");
 app.use('/api/authors', authorsRoutes);
 

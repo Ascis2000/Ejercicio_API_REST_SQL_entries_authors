@@ -1,23 +1,26 @@
 
 const author = require('../models/authors.model'); // Importar el modelo de la BBDD
 
-//getEntries
-// if(hay email)
-//     busca por mail
-// else
-//     busca todo
-
-
-// GET http://localhost:3000/entries --> ALL
-// GET http://localhost:3000/entries?email=hola@gmail.com --> por email
-const getAuthors = async (req, res) => {
+// GET http://localhost:3000/api/authors --> ALL
+const getAllAuthors = async (req, res) => {
     let authors;
-    authors = await author.getAllAuthors();
-    
-    res.status(200).json(authors); // 
+
+    try {
+        authors = await author.getAllAuthors();
+        res.status(200).json(authors); 
+    } catch (error) {
+        console.error('Error al obtener todos los autores:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
 }
+
+// GET BY EMAIL
+// http://localhost:3000/api/authors/email?email=jabier@thebridgeschool.es
+// http://localhost:3000/api/authors/:email
 const getAuthorByEmail = async (req, res) => {
-    const { email } = req.query;
+    //const { email } = req.query;
+    const email= req.query.email;
+
     try {
         const authorData = await author.getAuthorByEmail(email);
         if (authorData) {
@@ -35,6 +38,7 @@ const getAuthorByEmail = async (req, res) => {
 const createAuthor= async (req, res) => {
     const newAuthor = req.body; // {name,surname,email,image}
     const response = await author.createAuthor(newAuthor);
+
     res.status(201).json({
         "items_created": response,
         message: `Usuario creado: ${req.body.email}`,
@@ -45,6 +49,7 @@ const createAuthor= async (req, res) => {
 const updateAuthorByEmail = async (req, res) => {
     const updatedAuthor = req.body; // {name, surname, image, email, currentEmail}
     const currentEmail = req.body.currentEmail; // current email como criterio de búsqueda de autor
+    
     try {
         const response = await author.updateAuthorByEmail(updatedAuthor, currentEmail);
         if (response) {
@@ -80,7 +85,7 @@ const deleteAuthorByEmail = async (req, res) => {
 }
 
 module.exports = {
-    getAuthors,
+    getAllAuthors,
     getAuthorByEmail,
     createAuthor,
     updateAuthorByEmail,

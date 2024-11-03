@@ -61,16 +61,6 @@ const createEntry = async (entry) => {
 }
 
 // UPDATE
-/* 
-Ejemplo
-{
-    "title":"El Atlético gana la champions", // el nuevo valor
-    "content":"comentario nuevo 4",
-    "date":"2024-10-22T22:00:00.000Z",
-    "category":"sucesos",
-    "originalTitle":"El rayo gana la champions" // el valor debe existir
-} 
-*/
 const updateEntry = async (updatedEntry, originalTitle) => {
     const { title, content, category } = updatedEntry; //son los campos que podremos actualizar desde postman
     let client, result;

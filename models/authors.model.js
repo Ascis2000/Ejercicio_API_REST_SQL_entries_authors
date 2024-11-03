@@ -26,7 +26,8 @@ const getAllAuthors = async () => {
     return result
 }
 
-//GET AUTHOR BY EMAIL: http://localhost:3000/api/authors/email?email=alvaru@thebridgeschool.es
+// GET AUTHOR BY EMAIL
+// http://localhost:3000/api/authors/email?email=alvaru@thebridgeschool.es
 const getAuthorByEmail = async (email) => {
         let client, result;
         try {
@@ -47,6 +48,7 @@ const getAuthorByEmail = async (email) => {
 const createAuthor = async (author) => {
     const { name, surname, email, image } = author;
     let client, result;
+
     try {
         client = await pool.connect(); // Espera a abrir conexion
         const data = await client.query(queries.createAuthor,[name, surname, image, email])
@@ -81,6 +83,7 @@ const updateAuthorByEmail = async (updatedAuthor, currentEmail) => {
 const deleteAuthorByEmail = async (authorToDelete) => {
     const email = authorToDelete;
     let client, result;
+    
     try {
         client = await pool.connect();
         const data = await client.query(queries.deleteAuthorByEmail, [email]);
